@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday — A Garden of Lilies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --twilight:#2D1B4E;
+    --dusk-rose:#C9899B;
+    --champagne:#F5DCC8;
+    --petal-white:#FFF8F0;
+    --magenta:#B83264;
+    --sage:#6B8068;
+    --sage-dark:#445443;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ width:100%; overflow-x:hidden; }
+  body{
+    font-family:'Cormorant Garamond', serif;
+    background:var(--twilight);
+    color:var(--petal-white);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ===== PAGE SYSTEM ===== */
+  .page{ display:none; width:100%; min-height:100vh; }
+  .page.active{ display:block; }
+
+  /* ===== PAGE 1 — GARDEN ===== */
+  .hero{
+    position:relative; min-height:100vh; display:flex;
+    flex-direction:column; overflow:hidden;
+    background:linear-gradient(180deg, var(--twilight) 0%, var(--dusk-rose) 62%, var(--champagne) 100%);
+  }
+  .stars{ position:absolute; inset:0; pointer-events:none; }
+  .stars span{
+    position:absolute; width:3px; height:3px; border-radius:50%;
+    background:var(--petal-white); opacity:.2;
+    animation:twinkle 3.6s ease-in-out infinite;
+  }
+  @keyframes twinkle{ 0%,100%{opacity:.15;} 50%{opacity:.9;} }
+  .moon{
+    position:absolute; top:9%; right:11%; width:84px; height:84px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, var(--petal-white), var(--champagne) 75%);
+    box-shadow:0 0 70px 22px rgba(255,248,240,.3); opacity:.9;
+  }
+  .content{
+    position:relative; z-index:2; flex:1;
+    display:flex; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; padding:6vh 6vw 24vh;
+  }
+  .eyebrow{
+    font-style:italic; letter-spacing:.16em; text-transform:uppercase;
+    font-size:clamp(.68rem,1.3vw,.9rem); color:var(--champagne);
+    opacity:0; animation:fade-in .9s ease forwards; animation-delay:.2s; margin-bottom:.9rem;
+  }
+  .headline{ font-family:'Pinyon Script', cursive; font-weight:400; line-height:.95; }
+  .headline .line{
+    display:block; font-size:clamp(3.4rem,12vw,8.2rem); color:var(--petal-white);
+    text-shadow:0 4px 34px rgba(184,50,100,.45);
+    opacity:0; transform:translateY(20px); animation:rise .9s ease forwards;
+  }
+  .headline .line-1{ animation-delay:.45s; }
+  .headline .line-2{ animation-delay:.75s; margin-top:-1.2vh; }
+  @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+  @keyframes fade-in{ to{ opacity:1; } }
+  .flourish{
+    width:0; height:2px; background:var(--magenta);
+    margin:1.1rem auto 0;
+    animation:draw-line .8s ease forwards; animation-delay:1.15s;
+  }
+  @keyframes draw-line{ to{ width:min(200px,38vw); } }
+  .subtext{
+    margin-top:1.3rem; max-width:30ch; font-style:italic;
+    font-size:clamp(1rem,1.5vw,1.2rem); color:var(--champagne);
+    opacity:0; animation:fade-in 1s ease forwards; animation-delay:1.5s;
+  }
+  .enter-btn{
+    margin-top:2.3rem;
+    display:inline-flex; flex-direction:column; align-items:center; gap:.3rem;
+    color:var(--champagne); background:none; border:none; cursor:pointer;
+    font-family:'Cormorant Garamond', serif; font-style:italic;
+    font-size:clamp(.85rem,1.3vw,1rem); letter-spacing:.04em;
+    opacity:0; animation:fade-in 1s ease forwards; animation-delay:2.1s;
+  }
+  .enter-btn:hover{ color:var(--petal-white); }
+  .enter-btn .chevron{ animation:bob 1.8s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(6px); } }
+  .garden{
+    position:relative; z-index:2; width:100%; height:34vh; min-height:230px;
+  }
+  .hill{ position:absolute; left:-6%; width:112%; border-radius:50% 50% 0 0; }
+  .hill-back{ bottom:-6%; height:72%; background:var(--sage-dark); opacity:.55; }
+  .hill-front{ bottom:-10%; height:56%; background:var(--sage); }
+  .lily-row{
+    position:absolute; inset:0;
+    display:flex; align-items:flex-end; justify-content:space-evenly; padding:0 3vw;
+  }
+  .lily{
+    height:var(--h,150px); width:auto; aspect-ratio:120/220;
+    overflow:visible; transform-origin:bottom center;
+    filter:drop-shadow(0 6px 10px rgba(0,0,0,.18));
+    animation:sway var(--duration,4.6s) ease-in-out var(--delay,0s) infinite alternate;
+  }
+  @keyframes sway{ from{ transform:rotate(-3deg); } to{ transform:rotate(3deg); } }
+  .lily--white{ --petal:#FFF8F0; --speckle:transparent; --stamen:#D9A441; }
+  .lily--blush{ --petal:#F2C9D6; --speckle:#B83264; --stamen:#B86B3A; }
+  .lily--peach{ --petal:#F6D9B8; --speckle:#C9899B; --stamen:#A8633A; }
+  .fireflies span{
+    position:absolute; bottom:6%; width:6px; height:6px; border-radius:50%;
+    background:var(--champagne); box-shadow:0 0 9px 3px rgba(245,220,200,.85);
+    opacity:0; animation:float-up 6.5s ease-in infinite;
+  }
+  @keyframes float-up{
+    0%{ opacity:0; transform:translateY(0); }
+    14%{ opacity:.9; }
+    88%{ opacity:0; }
+    100%{ transform:translateY(-28vh) translateX(8px); opacity:0; }
+  }
+
+  /* ===== PAGE 2 — CAKE ===== */
+  #page2{
+    background:linear-gradient(180deg, #1a0d30 0%, #2D1B4E 40%, #3d1f3f 100%);
+    min-height:100vh; display:none; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:40px 20px; position:relative; overflow:hidden;
+  }
+  #page2.active{ display:flex; }
+  #page2 .stars{ position:absolute; inset:0; pointer-events:none; }
+  .cake-title{
+    font-family:'Pinyon Script', cursive;
+    font-size:clamp(2.2rem,8vw,4.5rem);
+    color:var(--champagne); text-align:center; margin-bottom:30px;
+    text-shadow:0 0 30px rgba(201,137,155,.6);
+  }
+  .cake-wrap{ position:relative; display:flex; flex-direction:column; align-items:center; }
+
+  /* Candles area */
+  .candles-row{
+    display:flex; align-items:flex-end; gap:0; margin-bottom:0;
+    position:relative; z-index:10;
+  }
+  .candle-unit{ display:flex; flex-direction:column; align-items:center; }
+  .flame{
+    width:8px; height:14px; background:radial-gradient(ellipse at bottom, #fff8a0, #ffb700 40%, #ff6a00 80%, transparent);
+    border-radius:50% 50% 20% 20%; position:relative;
+    animation:flicker 0.3s ease-in-out infinite alternate;
+    transition:opacity 0.4s;
+  }
+  .flame.out{ opacity:0; animation:none; }
+  @keyframes flicker{
+    0%{ transform:rotate(-2deg) scaleY(1); }
+    100%{ transform:rotate(2deg) scaleY(1.12); }
+  }
+  .candle-body{
+    width:8px; height:28px;
+    border-radius:3px 3px 0 0;
+  }
+
+  /* Cake tiers */
+  .cake-svg{ display:block; }
+
+  .blow-btn{
+    margin-top:28px;
+    background:linear-gradient(135deg,var(--magenta),var(--dusk-rose));
+    color:var(--petal-white); border:none; cursor:pointer;
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:1.25rem; padding:14px 38px; border-radius:50px;
+    box-shadow:0 6px 28px rgba(184,50,100,.4);
+    transition:transform .2s, box-shadow .2s;
+  }
+  .blow-btn:hover{ transform:scale(1.04); box-shadow:0 8px 36px rgba(184,50,100,.55); }
+  .blow-btn:disabled{ opacity:.5; cursor:default; }
+  .age-badge{
+    font-family:'Pinyon Script',cursive;
+    font-size:clamp(1rem,3vw,1.5rem);
+    color:var(--champagne); margin-top:10px; opacity:.8;
+  }
+
+  /* ===== PAGE 3 — FINAL ===== */
+  #page3{
+    display:none; min-height:100vh; position:relative; overflow:hidden;
+    background:linear-gradient(135deg,#1a0d30 0%,#2D1B4E 50%,#3d1220 100%);
+  }
+  #page3.active{ display:block; }
+
+  /* Hearts */
+  .hearts-container{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .heart{
+    position:absolute; bottom:-50px; font-size:1.4rem; opacity:0;
+    animation:heart-rise linear infinite;
+  }
+  @keyframes heart-rise{
+    0%{ transform:translateY(0) scale(.8); opacity:.7; }
+    100%{ transform:translateY(-110vh) scale(1.2); opacity:0; }
+  }
+
+  .final-inner{
+    position:relative; z-index:2; max-width:900px; margin:0 auto;
+    padding:60px 24px 80px; text-align:center;
+  }
+  .final-title{
+    font-family:'Pinyon Script',cursive;
+    font-size:clamp(3rem,10vw,6rem);
+    color:var(--champagne);
+    text-shadow:0 0 40px rgba(201,137,155,.7);
+    animation:fade-in 1.2s ease forwards;
+    margin-bottom:8px;
+  }
+  .final-subtitle{
+    font-style:italic; color:var(--dusk-rose);
+    font-size:clamp(1rem,2vw,1.3rem);
+    letter-spacing:.12em; margin-bottom:50px;
+    animation:fade-in 1.2s .4s ease both;
+  }
+
+  /* ── Photo collage — 7 cards ── */
+  .photo-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-template-rows:auto auto auto;
+    gap:12px;
+    margin-bottom:50px;
+  }
+  /* Row 1: card 1 spans 2 cols, card 2 spans 2 cols */
+  .photo-card:nth-child(1){ grid-column:span 2; min-height:260px; }
+  .photo-card:nth-child(2){ grid-column:span 2; min-height:260px; }
+  /* Row 2: three cards */
+  .photo-card:nth-child(3){ grid-column:span 1; min-height:300px; }
+  .photo-card:nth-child(4){ grid-column:span 2; min-height:300px; }
+  .photo-card:nth-child(5){ grid-column:span 1; min-height:300px; }
+  /* Row 3: card 6 wide, card 7 square */
+  .photo-card:nth-child(6){ grid-column:span 3; min-height:240px; }
+  .photo-card:nth-child(7){ grid-column:span 1; min-height:240px; }
+
+  .photo-card{
+    position:relative; border-radius:14px; overflow:hidden;
+    background:rgba(255,255,255,.07); border:1px solid rgba(201,137,155,.25);
+    cursor:pointer;
+    display:flex; flex-direction:column; gap:10px; padding:14px;
+    animation:fade-in .9s ease both;
+    transition:transform .35s cubic-bezier(.25,.46,.45,.94), box-shadow .35s ease;
+    z-index:1;
+  }
+  .photo-card:hover{
+    transform:scale(1.07);
+    box-shadow:0 20px 55px rgba(184,50,100,.6), 0 0 0 2px rgba(201,137,155,.55);
+    z-index:10;
+  }
+
+  .photo-card .photo-placeholder{
+    .memory-photo{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:10px;
+    display:block;
+}
+    flex:1;
+    background:linear-gradient(135deg,rgba(201,137,155,.35),rgba(45,27,78,.55));
+    display:flex; align-items:center; justify-content:center;
+    font-size:4rem;
+    border-radius:8px;
+    min-height:160px;
+  }
+
+  .card-quote{
+    font-style:italic; font-size:.95rem; color:var(--champagne);
+    line-height:1.5; text-align:center;
+    padding:8px 4px 2px;
+  }
+
+  /* Quotes carousel */
+  .quote-section{ margin:10px 0 50px; }
+  .big-quote{
+    font-family:'Pinyon Script',cursive;
+    font-size:clamp(1.8rem,5vw,3.2rem);
+    color:var(--dusk-rose);
+    line-height:1.3;
+    text-shadow:0 0 20px rgba(184,50,100,.3);
+    min-height:80px;
+    transition:opacity .5s;
+  }
+  .quote-nav{ margin-top:14px; display:flex; gap:8px; justify-content:center; }
+  .q-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(201,137,155,.35); border:none; cursor:pointer;
+    transition:background .3s;
+  }
+  .q-dot.active{ background:var(--dusk-rose); }
+
+  /* Final message */
+  .final-msg{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(201,137,155,.2);
+    border-radius:20px; padding:32px 28px;
+    font-style:italic; font-size:clamp(1.05rem,1.8vw,1.25rem);
+    line-height:1.9; color:var(--champagne);
+    animation:fade-in 1s 1s ease both;
+  }
+  .final-msg strong{ color:var(--petal-white); font-style:normal; }
+
+  /* Sparkle stars */
+  .sparkle{
+    position:absolute; pointer-events:none;
+    animation:sparkle-pop .8s ease forwards;
+  }
+  @keyframes sparkle-pop{
+    0%{ transform:scale(0) rotate(0); opacity:1; }
+    100%{ transform:scale(1.8) rotate(180deg); opacity:0; }
+  }
+
+  @media(max-width:640px){
+    .headline .line{ font-size:clamp(2.6rem,15vw,4rem); }
+    .garden{ height:27vh; }
+    .moon{ width:60px; height:60px; top:6%; }
+    .photo-grid{ grid-template-columns:repeat(2,1fr); }
+    .photo-card:nth-child(1),.photo-card:nth-child(2){ grid-column:span 1; aspect-ratio:4/5; }
+    .photo-card:nth-child(3),.photo-card:nth-child(5){ grid-column:span 1; aspect-ratio:4/5; }
+    .photo-card:nth-child(4){ grid-column:span 2; aspect-ratio:16/9; }
+    .photo-card:nth-child(6){ grid-column:span 1; aspect-ratio:4/5; }
+    .photo-card:nth-child(7){ grid-column:span 1; aspect-ratio:4/5; }
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======== PAGE 1 ======== -->
+<div id="page1" class="page active">
+<section class="hero">
+  <div class="stars" aria-hidden="true">
+    <span style="top:6%;left:8%;animation-delay:.1s"></span>
+    <span style="top:14%;left:22%;animation-delay:1.4s"></span>
+    <span style="top:9%;left:38%;animation-delay:2.1s"></span>
+    <span style="top:20%;left:48%;animation-delay:.7s"></span>
+    <span style="top:5%;left:62%;animation-delay:1.8s"></span>
+    <span style="top:16%;left:74%;animation-delay:.3s"></span>
+    <span style="top:24%;left:88%;animation-delay:2.6s"></span>
+    <span style="top:30%;left:15%;animation-delay:1.1s"></span>
+    <span style="top:34%;left:60%;animation-delay:2.9s"></span>
+    <span style="top:28%;left:33%;animation-delay:.5s"></span>
+  </div>
+  <div class="moon" aria-hidden="true"></div>
+  <div class="content">
+    <p class="eyebrow">a garden grown just for you</p>
+    <h1 class="headline">
+      <span class="line line-1">Happy</span>
+      <span class="line line-2">Birthday</span>
+    </h1>
+    <div class="flourish"></div>
+    <p class="subtext">Like the lily, may this year unfold in grace, light, and quiet wonder.</p>
+    <button class="enter-btn" onclick="goToPage2()">
+      Enter your garden
+      <span class="chevron">↓</span>
+    </button>
+  </div>
+  <div class="garden" aria-hidden="true">
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <symbol id="lily-flower" viewBox="0 0 120 220">
+          <path d="M60,220 C58,170 62,120 60,86" stroke="var(--stem,#6B8068)" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M60,150 C40,140 25,150 18,168 C36,170 52,164 60,150 Z" fill="var(--stem,#6B8068)"/>
+          <path d="M60,124 C82,114 98,122 106,140 C86,144 70,138 60,124 Z" fill="var(--stem,#6B8068)"/>
+          <g fill="var(--petal,#FFF8F0)">
+            <path d="M60,86 C44,64 40,30 60,2 C80,30 76,64 60,86 Z" transform="rotate(0 60 86)"/>
+            <path d="M60,86 C44,64 40,30 60,2 C80,30 76,64 60,86 Z" transform="rotate(120 60 86)"/>
+            <path d="M60,86 C44,64 40,30 60,2 C80,30 76,64 60,86 Z" transform="rotate(240 60 86)"/>
+          </g>
+          <g fill="var(--petal,#FFF8F0)" opacity=".92">
+            <path d="M60,86 C52,66 50,40 60,18 C70,40 68,66 60,86 Z" transform="rotate(60 60 86)"/>
+            <path d="M60,86 C52,66 50,40 60,18 C70,40 68,66 60,86 Z" transform="rotate(180 60 86)"/>
+            <path d="M60,86 C52,66 50,40 60,18 C70,40 68,66 60,86 Z" transform="rotate(300 60 86)"/>
+          </g>
+          <g fill="var(--speckle,transparent)">
+            <circle cx="60" cy="70" r="2"/><circle cx="55" cy="64" r="1.6"/>
+            <circle cx="65" cy="63" r="1.6"/><circle cx="58" cy="56" r="1.3"/><circle cx="63" cy="55" r="1.3"/>
+          </g>
+          <g stroke="var(--stamen,#D9A441)" stroke-width="1.6" fill="var(--stamen,#D9A441)">
+            <line x1="60" y1="86" x2="46" y2="46"/><line x1="60" y1="86" x2="52" y2="38"/>
+            <line x1="60" y1="86" x2="60" y2="34"/><line x1="60" y1="86" x2="68" y2="38"/>
+            <line x1="60" y1="86" x2="74" y2="46"/>
+            <ellipse cx="46" cy="44" rx="3" ry="5" transform="rotate(-25 46 44)"/>
+            <ellipse cx="52" cy="36" rx="3" ry="5" transform="rotate(-12 52 36)"/>
+            <ellipse cx="60" cy="32" rx="3" ry="5"/>
+            <ellipse cx="68" cy="36" rx="3" ry="5" transform="rotate(12 68 36)"/>
+            <ellipse cx="74" cy="44" rx="3" ry="5" transform="rotate(25 74 44)"/>
+          </g>
+        </symbol>
+      </defs>
+    </svg>
+    <div class="hill hill-back"></div>
+    <div class="hill hill-front"></div>
+    <div class="lily-row">
+      <svg class="lily lily--blush" viewBox="0 0 120 220" style="--h:118px;--delay:.2s;--duration:4.2s"><use href="#lily-flower"></use></svg>
+      <svg class="lily lily--white" viewBox="0 0 120 220" style="--h:168px;--delay:.6s;--duration:5.0s"><use href="#lily-flower"></use></svg>
+      <svg class="lily lily--peach" viewBox="0 0 120 220" style="--h:134px;--delay:0s;--duration:4.6s"><use href="#lily-flower"></use></svg>
+      <svg class="lily lily--white" viewBox="0 0 120 220" style="--h:150px;--delay:.9s;--duration:4.8s"><use href="#lily-flower"></use></svg>
+      <svg class="lily lily--blush" viewBox="0 0 120 220" style="--h:178px;--delay:.4s;--duration:5.2s"><use href="#lily-flower"></use></svg>
+      <svg class="lily lily--peach" viewBox="0 0 120 220" style="--h:140px;--delay:1.1s;--duration:4.4s"><use href="#lily-flower"></use></svg>
+      <svg class="lily lily--white" viewBox="0 0 120 220" style="--h:122px;--delay:.7s;--duration:4.9s"><use href="#lily-flower"></use></svg>
+    </div>
+    <div class="fireflies" aria-hidden="true">
+      <span style="left:18%;animation-delay:0s"></span>
+      <span style="left:35%;animation-delay:1.6s"></span>
+      <span style="left:52%;animation-delay:3.1s"></span>
+      <span style="left:68%;animation-delay:.8s"></span>
+      <span style="left:84%;animation-delay:3.8s"></span>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ======== PAGE 2 — CAKE ======== -->
+<div id="page2" class="page">
+  <div class="stars" aria-hidden="true">
+    <span style="top:4%;left:5%;animation-delay:.2s"></span>
+    <span style="top:10%;left:20%;animation-delay:1.1s"></span>
+    <span style="top:6%;left:55%;animation-delay:2.3s"></span>
+    <span style="top:14%;left:80%;animation-delay:.6s"></span>
+    <span style="top:20%;left:90%;animation-delay:1.9s"></span>
+    <span style="top:8%;left:40%;animation-delay:.9s"></span>
+  </div>
+  <p class="cake-title">Make a Wish ✨</p>
+  <div class="cake-wrap">
+    <div class="candles-row" id="candleRow"></div>
+    <!-- Cake SVG -->
+    <svg class="cake-svg" width="340" height="200" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Top tier -->
+      <ellipse cx="170" cy="58" rx="90" ry="16" fill="#C9899B"/>
+      <rect x="80" y="58" width="180" height="48" rx="4" fill="#E8A0B8"/>
+      <ellipse cx="170" cy="106" rx="90" ry="16" fill="#C9899B"/>
+      <!-- Frosting drips top -->
+      <path d="M90,64 Q95,78 100,64 Q105,78 110,64 Q115,78 120,64 Q125,78 130,64 Q135,78 140,64 Q145,78 150,64 Q155,78 160,64 Q165,78 170,64 Q175,78 180,64 Q185,78 190,64 Q195,78 200,64 Q205,78 210,64 Q215,78 220,64 Q225,78 230,64 Q235,78 240,64 Q245,78 250,64" fill="none" stroke="#FFF8F0" stroke-width="6" stroke-linecap="round"/>
+      <!-- Middle tier -->
+      <ellipse cx="170" cy="106" rx="110" ry="18" fill="#B83264"/>
+      <rect x="60" y="106" width="220" height="52" rx="4" fill="#D9527A"/>
+      <ellipse cx="170" cy="158" rx="110" ry="18" fill="#B83264"/>
+      <!-- Frosting drips middle -->
+      <path d="M68,114 Q74,130 80,114 Q86,130 92,114 Q98,130 104,114 Q110,130 116,114 Q122,130 128,114 Q134,130 140,114 Q146,130 152,114 Q158,130 164,114 Q170,130 176,114 Q182,130 188,114 Q194,130 200,114 Q206,130 212,114 Q218,130 224,114 Q230,130 236,114 Q242,130 248,114 Q254,130 260,114 Q266,130 272,114" fill="none" stroke="#FFF8F0" stroke-width="7" stroke-linecap="round"/>
+      <!-- Bottom tier -->
+      <ellipse cx="170" cy="158" rx="130" ry="20" fill="#9A2850"/>
+      <rect x="40" y="158" width="260" height="38" rx="4" fill="#B83264"/>
+      <ellipse cx="170" cy="196" rx="130" ry="20" fill="#9A2850"/>
+      <!-- Decorations on cake -->
+      <circle cx="130" cy="132" r="5" fill="#F5DCC8"/>
+      <circle cx="170" cy="128" r="5" fill="#F5DCC8"/>
+      <circle cx="210" cy="132" r="5" fill="#F5DCC8"/>
+      <circle cx="150" cy="80" r="4" fill="#FFF8F0"/>
+      <circle cx="190" cy="80" r="4" fill="#FFF8F0"/>
+      <!-- Plate -->
+      <ellipse cx="170" cy="196" rx="145" ry="10" fill="#7A1F3E" opacity=".5"/>
+    </svg>
+    <div class="age-badge">19 candles for 19 magical years 🌸</div>
+    <button class="blow-btn" id="blowBtn" onclick="blowCandles()">💨 Blow Candles!</button>
+  </div>
+</div>
+
+<!-- ======== PAGE 3 — FINAL ======== -->
+<div id="page3" class="page">
+  <div class="hearts-container" id="heartsContainer"></div>
+  <div class="final-inner">
+    <h1 class="final-title">You Are So Loved</h1>
+    <p class="final-subtitle">Happy 19th Birthday, Beautiful</p>
+
+    <!-- Photo Grid — 7 photos -->
+    <div class="photo-grid">
+      <div class="photo-card" style="animation-delay:.1s">
+        <img src="images/photo1.jpg.JPG" alt="Memory 1" class="memory-photo">
+        <p class="card-quote">"The prettiest view I've seen isn't a place—it's your eyes."</p>
+      </div>
+      <div class="photo-card" style="animation-delay:.2s">
+        <img src="images/photo.2jpg.jpeg" alt="Memory 2" class="memory-photo">
+        <p class="card-quote">"Her laughter is the prettiest sound the garden has ever known."</p>
+      </div>
+      <div class="photo-card" style="animation-delay:.3s">
+        <img src="images/photo3.jpg.png" alt="Memory 3" class="memory-photo">
+        <p class="card-quote">"Even the moon listens when she speaks."</p>
+      </div>
+      <div class="photo-card" style="animation-delay:.4s">
+        <img src="images/photo4.jpg.JPG" alt="Memory 4" class="memory-photo">
+        <p class="card-quote">"Your smile shines so bright, it makes the moon jealous."</p>
+      </div>
+      <div class="photo-card" style="animation-delay:.5s">
+        <img src="images/photo5.jpg.jpeg" alt="Memory 5" class="memory-photo">
+        <p class="card-quote">"Born to shimmer."</p>
+      </div>
+      <div class="photo-card" style="animation-delay:.6s">
+        <img src="images/photo6.jpg.JPG" alt="Memory 6" class="memory-photo">
+        <p class="card-quote">"She moves through the world and leaves it a little more beautiful."</p>
+      </div>
+      <div class="photo-card" style="animation-delay:.7s">
+        <img src="images/photo7.jpg.JPG" alt="Memory 7" class="memory-photo">
+        <p class="card-quote">"Nineteen looks nothing but radiant on her."</p>
+      </div>
+    </div>
+
+    <!-- Quote Carousel -->
+    <div class="quote-section">
+      <p class="big-quote" id="bigQuote"></p>
+      <div class="quote-nav" id="quoteDots"></div>
+    </div>
+
+    <!-- Final Message -->
+    <div class="final-msg">
+      On this beautiful day, the world is a little brighter, a little warmer, and undeniably more lovely —
+      because <strong>you</strong> are in it. <br><br>
+      May this year bring you every dream you've tucked beneath your pillow, every wish you've whispered to the stars,
+      and every joy you so generously give to everyone around you. <br><br>
+      <strong>Here's to 19 — your most radiant chapter yet.</strong> 🌸
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CANDLE GENERATION =====
+const CANDLE_COLORS = [
+  '#F5DCC8','#C9899B','#B83264','#D9A441','#FFF8F0','#6B8068','#E8A0B8','#9A2850'
+];
+let allBlown = false;
+
+function buildCandles(){
+  const row = document.getElementById('candleRow');
+  row.innerHTML = '';
+  for(let i=0;i<19;i++){
+    const col = CANDLE_COLORS[i % CANDLE_COLORS.length];
+    const unit = document.createElement('div');
+    unit.className='candle-unit';
+    unit.innerHTML = `
+      <div class="flame" id="flame${i}" style="animation-delay:${(i*.07).toFixed(2)}s"></div>
+      <div class="candle-body" style="background:${col};margin:0 2px"></div>
+    `;
+    row.appendChild(unit);
+  }
+}
+
+function blowCandles(){
+  if(allBlown) return;
+  allBlown = true;
+  const btn = document.getElementById('blowBtn');
+  btn.disabled = true;
+  btn.textContent = '🎉 Wish made!';
+
+  // Blow out one by one quickly
+  for(let i=0;i<19;i++){
+    setTimeout(()=>{
+      const f = document.getElementById('flame'+i);
+      if(f) f.classList.add('out');
+    }, i*80);
+  }
+
+  // Go to page 3 after a beat
+  setTimeout(()=>{ goToPage3(); }, 2400);
+}
+
+// ===== PAGE TRANSITIONS =====
+function goToPage2(){
+  document.getElementById('page1').classList.remove('active');
+  document.getElementById('page2').classList.add('active');
+  buildCandles();
+  allBlown = false;
+}
+
+function goToPage3(){
+  document.getElementById('page2').classList.remove('active');
+  const p3 = document.getElementById('page3');
+  p3.classList.add('active');
+  startHearts();
+  startQuotes();
+}
+
+// ===== HEARTS =====
+const HEART_EMOJIS = ['❤️','🌸','💗','💕','🌺','💖','✨','🌷'];
+function startHearts(){
+  const c = document.getElementById('heartsContainer');
+  function spawnHeart(){
+    const el = document.createElement('span');
+    el.className='heart';
+    el.textContent = HEART_EMOJIS[Math.floor(Math.random()*HEART_EMOJIS.length)];
+    el.style.left = Math.random()*100+'%';
+    el.style.fontSize = (.9+Math.random()*1.2)+'rem';
+    const dur = 5+Math.random()*5;
+    el.style.animationDuration = dur+'s';
+    el.style.animationDelay = (Math.random()*3)+'s';
+    c.appendChild(el);
+    setTimeout(()=>el.remove(), (dur+4)*1000);
+  }
+  for(let i=0;i<18;i++) setTimeout(spawnHeart, i*300);
+  setInterval(spawnHeart, 1200);
+}
+
+// ===== QUOTES =====
+const QUOTES = [
+  "She carries flowers in her heart and stars in her eyes.",
+  "To know her is to love her — effortlessly, entirely.",
+  "Nineteen looks beautiful on her.",
+  "She is magic that forgot to hide itself.",
+  "The world is softer, kinder, and more alive because of her.",
+  "Like a lily at dusk, she glows without trying."
+];
+let currentQ = 0;
+let quoteTimer;
+
+function startQuotes(){
+  renderQuote();
+  buildDots();
+  quoteTimer = setInterval(()=>{
+    currentQ = (currentQ+1)%QUOTES.length;
+    renderQuote();
+    buildDots();
+  }, 4000);
+}
+
+function renderQuote(){
+  const el = document.getElementById('bigQuote');
+  if(!el) return;
+  el.style.opacity='0';
+  setTimeout(()=>{ el.textContent='"'+QUOTES[currentQ]+'"'; el.style.opacity='1'; },300);
+}
+
+function buildDots(){
+  const nav = document.getElementById('quoteDots');
+  if(!nav) return;
+  nav.innerHTML='';
+  QUOTES.forEach((_,i)=>{
+    const d=document.createElement('button');
+    d.className='q-dot'+(i===currentQ?' active':'');
+    d.onclick=()=>{ clearInterval(quoteTimer); currentQ=i; renderQuote(); buildDots(); };
+    nav.appendChild(d);
+  });
+}
+</script>
+</body>
+</html>
